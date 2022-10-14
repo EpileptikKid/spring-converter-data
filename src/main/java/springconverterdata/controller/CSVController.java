@@ -1,6 +1,7 @@
-package springconverterdata;
+package springconverterdata.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springconverterdata.service.CSVService;
+import springconverterdata.ResponseMessage;
 import springconverterdata.model.Exemplar;
+import springconverterdata.repository.JsonHelper;
 
 @CrossOrigin("http://localhost:8080")
 @Controller
@@ -70,9 +74,11 @@ public class CSVController {
     }
 
     @GetMapping("/download/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
-        InputStreamResource file = new InputStreamResource(fileService.load());
-
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, @RequestParam(value = "delimiter", required = false) Character delimiter) {
+        System.out.println(delimiter);
+        Optional<Character> delim = Optional.ofNullable(delimiter);
+        System.out.println(delim.orElse(','));
+        InputStreamResource file = new InputStreamResource(fileService.load(delim.orElse(',')));
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .contentType(MediaType.parseMediaType("application/csv"))

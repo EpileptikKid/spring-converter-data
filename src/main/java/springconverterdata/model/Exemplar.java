@@ -1,4 +1,4 @@
-package springconverterdata;
+package springconverterdata.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +9,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -107,4 +110,15 @@ public class Exemplar {
 
     @Column(name = TestProperties.param30)
     private String param30;
+
+    public List<String> refactorToCsv() {
+        List<String> result = Arrays.asList(
+                String.valueOf(this.id),
+                this.param2, this.param3, this.param4, this.param5, this.param6, this.param7,
+                this.param8, this.param9, this.param10, this.param11, this.param12, this.param13,
+                this.param14, this.param15, this.param16, this.param17, this.param18, this.param19,
+                this.param20, this.param21, this.param22, this.param23, this.param24, this.param25,
+                this.param26, this.param27, this.param28, this.param29, this.param30);
+        return result;
+    }
 }

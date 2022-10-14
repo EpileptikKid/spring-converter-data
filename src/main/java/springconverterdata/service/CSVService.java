@@ -1,4 +1,4 @@
-package springconverterdata;
+package springconverterdata.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,17 +21,16 @@ public class CSVService {
     public void save(MultipartFile file) {
         try {
             List<Exemplar> tutorials = JsonHelper.jsonToTutorials(file);
-            System.out.println("1");
             repository.saveAll(tutorials);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
     }
 
-    public ByteArrayInputStream load() {
+    public ByteArrayInputStream load(Character delimiter) {
         List<Exemplar> tutorials = repository.findAll();
 
-        ByteArrayInputStream in = CSVHelper.tutorialsToCSV(tutorials);
+        ByteArrayInputStream in = CSVHelper.tutorialsToCSV(tutorials, delimiter);
         return in;
     }
 
